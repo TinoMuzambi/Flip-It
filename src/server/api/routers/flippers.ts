@@ -21,6 +21,7 @@ export const flippersRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const flippers = await ctx.prisma.flipper.findMany({
       take: 100,
+      orderBy: [{ createdAt: "desc" }],
     });
 
     const users = (
