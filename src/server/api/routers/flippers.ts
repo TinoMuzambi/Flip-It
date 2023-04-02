@@ -1,9 +1,13 @@
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
 import { TRPCError } from "@trpc/server";
-// import { z } from "zod";
+import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 const filterUserForClient = (user: User) => {
   return {
@@ -41,4 +45,25 @@ export const flippersRouter = createTRPCRouter({
       };
     });
   }),
+
+  create: privateProcedure
+    .input(
+      z.object({
+        question: z.string().min(1).max(1000),
+        answer: z.string().min(1).max(1000),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const authorId = ctx.userId;
+
+      const flipper = await ctx.prisma.flipper.create({
+        data: {
+          authorId,
+          question: input.question,
+          answer: input.answer,
+        },
+      });
+
+      return flipper;
+    }),
 });
