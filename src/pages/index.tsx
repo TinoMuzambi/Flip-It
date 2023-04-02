@@ -13,12 +13,20 @@ import type { RouterOutputs } from "~/utils/api";
 
 const FlipperForm = () => {
   const { user } = useUser();
-  const { register, handleSubmit } =
+  const { register, handleSubmit, setValue } =
     useForm<RouterOutputs["flippers"]["create"]>();
 
   if (!user || !user.username) return null;
 
-  const { mutate } = api.flippers.create.useMutation();
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } = api.flippers.create.useMutation({
+    onSuccess: () => {
+      setValue("question", "");
+      setValue("answer", "");
+      void ctx.flippers.getAll.invalidate();
+    },
+  });
 
   const onSubmit: SubmitHandler<RouterOutputs["flippers"]["create"]> = (
     data
@@ -36,6 +44,7 @@ const FlipperForm = () => {
       <textarea
         className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
         placeholder="Enter a question"
+        disabled={isPosting}
         {...register("question", {
           required: {
             value: true,
@@ -54,6 +63,7 @@ const FlipperForm = () => {
       <textarea
         className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
         placeholder="Enter an answer"
+        disabled={isPosting}
         {...register("answer", {
           required: {
             value: true,
@@ -74,6 +84,7 @@ const FlipperForm = () => {
         className="flex min-h-[48px] cursor-pointer items-center justify-center rounded-md bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400"
         type="submit"
         value="Add Flipper"
+        disabled={isPosting}
       />
     </form>
   );
