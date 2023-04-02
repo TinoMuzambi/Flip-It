@@ -1,9 +1,12 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const user = useUser();
+
+  const { data } = api.flippers.getAll.useQuery();
   return (
     <>
       <Head>
@@ -13,6 +16,11 @@ const Home: NextPage = () => {
       </Head>
       <main className="">
         {user.isSignedIn ? <SignOutButton /> : <SignInButton />}
+        <div>
+          {data?.map((flipper) => (
+            <div key={flipper.id}>flipper.question</div>
+          ))}
+        </div>
       </main>
     </>
   );
