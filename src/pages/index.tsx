@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         {user.isSignedIn ? <SignOutButton /> : <SignInButton />}
         <div>
           {data?.map((flipper) => (
-            <div key={flipper.id}>flipper.question</div>
+            <div key={flipper.id}>{flipper.question}</div>
           ))}
         </div>
       </main>
