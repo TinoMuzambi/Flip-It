@@ -27,8 +27,18 @@ const FlipperForm = () => {
       setValue("answer", "");
       void ctx.flippers.getAll.invalidate();
     },
-    onError: () => {
-      toast.error("Failed to post!");
+    onError: (e) => {
+      const questionErrorMessage = e.data?.zodError?.fieldErrors.question;
+      const answerErrorMessage = e.data?.zodError?.fieldErrors.anwer;
+      if (questionErrorMessage && questionErrorMessage[0]) {
+        toast.error(questionErrorMessage[0]);
+      } else if (answerErrorMessage && answerErrorMessage[0]) {
+        {
+          toast.error(answerErrorMessage[0]);
+        }
+      } else {
+        toast.error("Something went wrong.");
+      }
     },
   });
 
@@ -49,39 +59,13 @@ const FlipperForm = () => {
         className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
         placeholder="Enter a question"
         disabled={isPosting}
-        {...register("question", {
-          required: {
-            value: true,
-            message: "This value is required",
-          },
-          minLength: {
-            value: 1,
-            message: "Please enter a value between 3-1000 characters.",
-          },
-          // maxLength: {
-          //   value: 1000,
-          //   message: "Please enter a value between 3-1000 characters.",
-          // },
-        })}
+        {...register("question")}
       />
       <textarea
         className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
         placeholder="Enter an answer"
         disabled={isPosting}
-        {...register("answer", {
-          required: {
-            value: true,
-            message: "This value is required",
-          },
-          minLength: {
-            value: 1,
-            message: "Please enter a value between 3-1000 characters.",
-          },
-          // maxLength: {
-          //   value: 1000,
-          //   message: "Please enter a value between 3-1000 characters.",
-          // },
-        })}
+        {...register("answer")}
       />
 
       <input
