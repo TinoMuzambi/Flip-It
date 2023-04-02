@@ -8,7 +8,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 import Flipper from "~/components/Flipper";
-import { LoadingPage } from "~/components/Loading";
+import { LoadingPage, LoadingSpinner } from "~/components/Loading";
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 
@@ -68,12 +68,18 @@ const FlipperForm = () => {
         {...register("answer")}
       />
 
-      <input
-        className="flex min-h-[48px] cursor-pointer items-center justify-center rounded-md bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400"
-        type="submit"
-        value="Add Flipper"
-        disabled={isPosting}
-      />
+      {isPosting ? (
+        <div className="flex items-center justify-center">
+          <LoadingSpinner size={48} />
+        </div>
+      ) : (
+        <input
+          className="flex min-h-[48px] cursor-pointer items-center justify-center rounded-md bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400"
+          type="submit"
+          value="Add Flipper"
+          disabled={isPosting}
+        />
+      )}
     </form>
   );
 };
