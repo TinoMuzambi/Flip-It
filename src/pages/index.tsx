@@ -7,9 +7,11 @@ import { api } from "~/utils/api";
 const Home: NextPage = () => {
   const user = useUser();
 
-  const { data } = api.flippers.getAll.useQuery();
+  const { data, isLoading } = api.flippers.getAll.useQuery();
 
-  if (!data) return <main>Loading...</main>;
+  if (isLoading) return <main>Loading...</main>;
+
+  if (!data) return <main>Something went wrong...</main>;
   return (
     <>
       <Head>
