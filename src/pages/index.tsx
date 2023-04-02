@@ -8,6 +8,8 @@ const Home: NextPage = () => {
   const user = useUser();
 
   const { data } = api.flippers.getAll.useQuery();
+
+  if (!data) return <main>Loading...</main>;
   return (
     <>
       <Head>
@@ -24,10 +26,10 @@ const Home: NextPage = () => {
         </div>
       </nav>
       <main className="container mx-auto">
-        <div className="grid grid-cols-4">
-          {data?.map((flipper) => (
+        <div className="grid grid-cols-4 gap-2">
+          {[...data, ...data, ...data, ...data, ...data].map((flipper) => (
             <div
-              className="rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4"
+              className="flex min-h-[10rem] items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4"
               key={flipper.id}
             >
               {flipper.question}
