@@ -91,7 +91,7 @@ const Feed = () => {
 
   if (!data) return <main>Something went wrong...</main>;
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
       {data.map((fullFlipper) => (
         <Flipper {...fullFlipper} key={fullFlipper.flipper.id} />
       ))}
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Flip-It - Cue cards for devs." />
         <link rel="icon" href="/logo.svg" />
       </Head>
-      <nav className="container mx-auto my-8 flex justify-between">
+      <nav className="container mx-auto my-8 flex justify-between px-8">
         <Link href="/">
           <h1 className="text-4xl font-bold text-slate-500">Flip-It</h1>
         </Link>
@@ -121,7 +121,7 @@ const Home: NextPage = () => {
           {isSignedIn ? <SignOutButton /> : <SignInButton />}
         </div>
       </nav>
-      <main className="container mx-auto">
+      <main className="container mx-auto px-8">
         <FlipperForm />
         <Feed />
       </main>
