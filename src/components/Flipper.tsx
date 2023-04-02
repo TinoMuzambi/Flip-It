@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+
 import type { RouterOutputs } from "~/utils/api";
 
 type FlipperWithUser = RouterOutputs["flippers"]["getAll"][number];
