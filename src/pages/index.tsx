@@ -4,6 +4,7 @@ import Head from "next/head";
 
 import Link from "next/link";
 import Flipper from "~/components/Flipper";
+import { LoadingPage } from "~/components/Loading";
 import { api } from "~/utils/api";
 
 const FlipperForm = () => {
@@ -31,14 +32,28 @@ const FlipperForm = () => {
   );
 };
 
-const Home: NextPage = () => {
-  const user = useUser();
-
+const Feed = () => {
   const { data, isLoading } = api.flippers.getAll.useQuery();
 
-  if (isLoading) return <main>Loading...</main>;
+  if (isLoading) return <LoadingPage />;
 
   if (!data) return <main>Something went wrong...</main>;
+  return (
+    <div className="grid grid-cols-4 gap-2">
+      {[...data, ...data, ...data, ...data, ...data].map((fullFlipper) => (
+        <Flipper {...fullFlipper} key={fullFlipper.flipper.id} />
+      ))}
+    </div>
+  );
+};
+
+const Home: NextPage = () => {
+  const { isLoaded: userLoaded, isSignedIn } = useUser();
+
+  if (!userLoaded) return <div />;
+
+  // Start fetching ASAP
+  api.flippers.getAll.useQuery();
   return (
     <>
       <Head>
@@ -51,16 +66,12 @@ const Home: NextPage = () => {
           <h1 className="text-4xl font-bold text-slate-500">Flip-It</h1>
         </Link>
         <div className="flex min-h-[48px] items-center justify-center rounded-full bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400">
-          {user.isSignedIn ? <SignOutButton /> : <SignInButton />}
+          {isSignedIn ? <SignOutButton /> : <SignInButton />}
         </div>
       </nav>
       <main className="container mx-auto">
         <FlipperForm />
-        <div className="grid grid-cols-4 gap-2">
-          {[...data, ...data, ...data, ...data, ...data].map((fullFlipper) => (
-            <Flipper {...fullFlipper} key={fullFlipper.flipper.id} />
-          ))}
-        </div>
+        <Feed />
       </main>
     </>
   );
