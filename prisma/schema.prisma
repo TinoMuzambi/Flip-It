@@ -11,8 +11,13 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Example {
+model Flipper {
     id        String   @id @default(cuid())
+    question  String   @db.VarChar(1000)
+    answer    String   @db.VarChar(1000)
+    authorId  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([authorId])
 }
