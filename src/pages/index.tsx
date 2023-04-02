@@ -3,6 +3,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import Flipper from "~/components/Flipper";
 import { api } from "~/utils/api";
 
 const FlipperForm = () => {
@@ -65,13 +66,8 @@ const Home: NextPage = () => {
       <main className="container mx-auto">
         <FlipperForm />
         <div className="grid grid-cols-4 gap-2">
-          {[...data, ...data, ...data, ...data, ...data].map((flipper) => (
-            <div
-              className="flex min-h-[10rem] items-center justify-center rounded-md bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4"
-              key={flipper.id}
-            >
-              {flipper.question}
-            </div>
+          {[...data, ...data, ...data, ...data, ...data].map((fullFlipper) => (
+            <Flipper {...fullFlipper} key={fullFlipper.flipper.id} />
           ))}
         </div>
       </main>
