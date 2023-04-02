@@ -1,7 +1,7 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+
 import Link from "next/link";
 import Flipper from "~/components/Flipper";
 import { api } from "~/utils/api";
@@ -12,24 +12,22 @@ const FlipperForm = () => {
   if (!user || !user.username) return null;
 
   return (
-    <section className="my-8 grid grid-flow-col">
-      <form className="flex flex-col gap-4">
-        <textarea
-          className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
-          placeholder="Enter a question"
-        />
-        <textarea
-          className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
-          placeholder="Enter an answer"
-        />
+    <form className="my-8 flex flex-col gap-4">
+      <textarea
+        className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
+        placeholder="Enter a question"
+      />
+      <textarea
+        className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"
+        placeholder="Enter an answer"
+      />
 
-        <input
-          className="flex min-h-[48px] cursor-pointer items-center justify-center rounded-md bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400"
-          type="submit"
-          value="Add Flipper"
-        />
-      </form>
-    </section>
+      <input
+        className="flex min-h-[48px] cursor-pointer items-center justify-center rounded-md bg-slate-400 px-4 text-slate-800 transition hover:bg-slate-800 hover:text-slate-400"
+        type="submit"
+        value="Add Flipper"
+      />
+    </form>
   );
 };
 
