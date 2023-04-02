@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 import Flipper from "~/components/Flipper";
 import { LoadingPage } from "~/components/Loading";
@@ -25,6 +26,9 @@ const FlipperForm = () => {
       setValue("question", "");
       setValue("answer", "");
       void ctx.flippers.getAll.invalidate();
+    },
+    onError: () => {
+      toast.error("Failed to post!");
     },
   });
 
@@ -54,10 +58,10 @@ const FlipperForm = () => {
             value: 1,
             message: "Please enter a value between 3-1000 characters.",
           },
-          maxLength: {
-            value: 1000,
-            message: "Please enter a value between 3-1000 characters.",
-          },
+          // maxLength: {
+          //   value: 1000,
+          //   message: "Please enter a value between 3-1000 characters.",
+          // },
         })}
       />
       <textarea
@@ -73,10 +77,10 @@ const FlipperForm = () => {
             value: 1,
             message: "Please enter a value between 3-1000 characters.",
           },
-          maxLength: {
-            value: 1000,
-            message: "Please enter a value between 3-1000 characters.",
-          },
+          // maxLength: {
+          //   value: 1000,
+          //   message: "Please enter a value between 3-1000 characters.",
+          // },
         })}
       />
 
