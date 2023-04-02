@@ -13,13 +13,6 @@ const FlipperForm = () => {
 
   return (
     <section className="my-8 grid grid-flow-col">
-      <Image
-        src={user.profileImageUrl}
-        alt={`${user.username}'s profile picture`}
-        width={48}
-        height={48}
-        className="rounded-full object-cover"
-      />
       <form className="flex flex-col gap-4">
         <textarea
           className="resize-none rounded-md border border-slate-600 bg-transparent p-2 outline-none hover:border-slate-400 focus-visible:border-slate-400"

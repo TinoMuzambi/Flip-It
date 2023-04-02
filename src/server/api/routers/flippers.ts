@@ -1,5 +1,6 @@
 import type { User } from "@clerk/nextjs/dist/api";
 import { clerkClient } from "@clerk/nextjs/server";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -25,9 +26,19 @@ export const flippersRouter = createTRPCRouter({
       })
     ).map(filterUserForClient);
 
-    return flippers.map((flipper) => ({
-      flipper,
-      author: users.find((user) => user.id === flipper.authorId),
-    }));
+    return flippers.map((flipper) => {
+      const author = users.find((user) => user.id === flipper.authorId);
+
+      if (!author)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Author for flipper not found",
+        });
+
+      return {
+        flipper,
+        author,
+      };
+    });
   }),
 });
